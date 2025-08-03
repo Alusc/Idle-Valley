@@ -15,8 +15,10 @@ main {
 }
 
 .grade {
+    padding: 8px;
     display: flex;
     flex-direction: column;
+    background-color: rgb(82, 27, 27);
 }
 
 .linha {
@@ -25,10 +27,19 @@ main {
 }
 
 .campo {
-    margin: 2px;
+    margin: 1px;
     padding: 0;
-    background-color: rgb(87, 32, 32);
-    border-radius: 3px;
-    width: 30px;
-    height: 30px;
+    background-color: rgb(117, 39, 39);
+    /* border-radius: 3px; */
+    width: 32px;
+    height: 32px;
 }
+
+.campo[data-elemento="pedra"] {
+    background-image: url("sprites/pedra.png");
+}
+
+.campo[data-elemento="erva"] {
+    background-image: url("sprites/erva.png");
+}
+
