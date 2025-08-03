@@ -7,6 +7,7 @@ main {
     padding: 0;
     margin: 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
@@ -14,11 +15,40 @@ main {
     background-color: seagreen;
 }
 
+.header {
+    width: calc(32px * 12);
+    margin-bottom: 0;
+    font-family: 'Trebuchet MS';
+    font-weight: bold;
+    font-size: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgb(16, 19, 16);
+}
+
+.dia {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.dia>button {
+    margin-left: 8px;
+    padding: 4px 8px;
+    background-color: rgba(0, 0, 0, 0);
+    font-weight: bold;
+    border: 2px solid black;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
 .grade {
     padding: 8px;
     display: flex;
     flex-direction: column;
     background-color: rgb(82, 27, 27);
+    border-radius: 8px;
 }
 
 .linha {
@@ -29,10 +59,17 @@ main {
 .campo {
     margin: 1px;
     padding: 0;
-    background-color: rgb(117, 39, 39);
-    /* border-radius: 3px; */
+    background-color: rgb(121, 46, 46);
     width: 32px;
     height: 32px;
+}
+
+.campo[data-status = "grama"] {
+    background-color: rgb(43, 114, 43);
+}
+
+.campo[data-aguado="sim"]{
+    background-color: rgb(104, 40, 40);
 }
 
 .campo[data-elemento="pedra"] {
