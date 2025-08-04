@@ -1,4 +1,4 @@
-const NUMERO_DE_LINHAS = 12;
+const NUMERO_DE_LINHAS = 15;
 const NUMERO_DE_COLUNAS = 12;
 
 const grade = document.querySelector(".grade");
@@ -18,19 +18,22 @@ function criarLinhas() {
 function criarCampos(linha){
     for (let i = 0; i < NUMERO_DE_COLUNAS; i++){
         const campo = document.createElement("div");
-        campo.dataset.elemento = "vazio";
-        campo.dataset.aguado = "nao";
-        campo.dataset.status = "grama";
-        const rand = Math.random();
-        if (rand < 0.2)
-            campo.dataset.elemento = "pedra";
-        else if (rand < 0.4)
-            campo.dataset.elemento = "erva";
         campo.classList.add("campo");
+        campo.dataset.status = "grama";
+        campo.dataset.elemento = elementoAleatorio();
         campo.addEventListener("click", clicarCampo);
         linha.appendChild(campo);
         campos.push(campo);
     }
+}
+
+function elementoAleatorio(){
+    const rand = Math.random();
+    if (rand < 0.2)
+        return "pedra";
+    if (rand < 0.4)
+        return "erva";
+    return "vazio";
 }
 
 function clicarCampo(){
@@ -41,14 +44,17 @@ function clicarCampo(){
         return;
     }
 
-    if (this.dataset.status == "grama"){
-        this.dataset.status = "limpo";
-        return;
+    const status = this.dataset.status;
+
+    switch (status){
+        case "grama":
+            this.dataset.status = "seco";
+        break;
+        case "seco":
+            this.dataset.status = "molhado";
+        break;
     }
 
-    const aguado = this.dataset.aguado;
-    if (aguado == "nao")
-        this.dataset.aguado = "sim";
 
 }
 
@@ -60,9 +66,10 @@ bPassarDia.addEventListener("click", passarDia);
 let dia = 1;
 
 function passarDia(){
-    dia += 1;
+    dia++;
     eDia.textContent = `Dia ${dia}`;
     campos.forEach((campo) => {
-        campo.dataset.aguado = "nao";
+        if (campo.dataset.status == "molhado")
+            campo.dataset.status = "seco";
     })
 }

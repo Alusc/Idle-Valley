@@ -15,6 +15,13 @@ main {
     background-color: seagreen;
 }
 
+.itens {
+    /* position: absolute; */
+    display: flex;
+    left: 40px;
+    top: 40px;
+}
+
 .header {
     width: calc(32px * 12);
     margin-bottom: 0;
@@ -59,16 +66,20 @@ main {
 .campo {
     margin: 1px;
     padding: 0;
-    background-color: rgb(121, 46, 46);
+    border-radius: 2px;
     width: 32px;
     height: 32px;
 }
 
-.campo[data-status = "grama"] {
+.campo[data-status="grama"] {
     background-color: rgb(43, 114, 43);
 }
 
-.campo[data-aguado="sim"]{
+.campo[data-status="seco"] {
+    background-color: rgb(121, 46, 46);
+}
+
+.campo[data-status="molhado"] {
     background-color: rgb(104, 40, 40);
 }
 
