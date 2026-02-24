@@ -1,3 +1,11 @@
+
+:root {
+    --tile-size: 32px;
+    --column-number: 12;
+    --row-number: 12;
+}
+
+
 body {
     margin: 0;
     padding: 0;
@@ -15,7 +23,7 @@ main {
     background-color: seagreen;
 }
 
-.itens {
+.items {
     /* position: absolute; */
     display: flex;
     left: 40px;
@@ -23,7 +31,7 @@ main {
 }
 
 .header {
-    width: calc(32px * 12);
+    width: calc(var(--tile-size) * var(--column-number));
     margin-bottom: 0;
     font-family: 'Trebuchet MS';
     font-weight: bold;
@@ -34,13 +42,13 @@ main {
     color: rgb(16, 19, 16);
 }
 
-.dia {
+.day-div {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-.dia>button {
+.day-div>button {
     margin-left: 8px;
     padding: 4px 8px;
     background-color: rgba(0, 0, 0, 0);
@@ -50,44 +58,42 @@ main {
     cursor: pointer;
 }
 
-.grade {
+.grid {
+    display: grid;
+    grid-template-columns: repeat(var(--column-number), var(--tile-size));
+    grid-template-rows: repeat(var(--row-number), var(--tile-size));
+    gap: 2px;
     padding: 8px;
-    display: flex;
-    flex-direction: column;
     background-color: rgb(82, 27, 27);
     border-radius: 8px;
 }
 
-.linha {
-    display: flex;
-    flex-direction: row;
-}
 
-.campo {
+.terrain {
     margin: 1px;
     padding: 0;
     border-radius: 2px;
-    width: 32px;
-    height: 32px;
+    width: var(--tile-size);
+    height: var(--tile-size);
 }
 
-.campo[data-status="grama"] {
+.terrain[data-status="grassy"] {
     background-color: rgb(43, 114, 43);
 }
 
-.campo[data-status="seco"] {
+.terrain[data-status="dry"] {
     background-color: rgb(121, 46, 46);
 }
 
-.campo[data-status="molhado"] {
+.terrain[data-status="wet"] {
     background-color: rgb(104, 40, 40);
 }
 
-.campo[data-elemento="pedra"] {
+.terrain[data-element="rock"] {
     background-image: url("sprites/pedra.png");
 }
 
-.campo[data-elemento="erva"] {
+.terrain[data-element="tallGrass"] {
     background-image: url("sprites/erva.png");
 }
 
