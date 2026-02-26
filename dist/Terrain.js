@@ -1,63 +1,78 @@
+import { Element, ElementId } from "./Element.js";
 var TerrainStatus;
 (function (TerrainStatus) {
     TerrainStatus["Grassy"] = "grassy";
     TerrainStatus["Dry"] = "dry";
     TerrainStatus["Wet"] = "wet";
 })(TerrainStatus || (TerrainStatus = {}));
-var TerrainElement;
-(function (TerrainElement) {
-    TerrainElement["Rock"] = "rock";
-    TerrainElement["TallGrass"] = "tallGrass";
-    TerrainElement["Empty"] = "empty";
-})(TerrainElement || (TerrainElement = {}));
 export class Terrain {
+    ;
     constructor() {
-        this.element = document.createElement("div");
-        this.element.classList.add("terrain");
-        this._status = TerrainStatus.Grassy;
-        this._element = this.randomElement();
+        this.grassGrowthCounter = 0;
+        this.elementDiv = document.createElement("div");
+        this.elementDiv.classList.add("terrain");
+        this.imageElement = document.createElement("img");
+        this.imageElement.classList.add("overlay");
+        this.elementDiv.appendChild(this.imageElement);
+        this.currentStatus = TerrainStatus.Grassy;
+        this.currentElement = this.randomElement();
         this.render();
-        this.element.addEventListener("click", () => this.click());
+        this.elementDiv.addEventListener("click", () => this.click());
     }
     get html() {
-        return this.element;
+        return this.elementDiv;
     }
     get status() {
-        return this._status;
+        return this.currentStatus;
     }
     randomElement() {
         const rand = Math.random();
         if (rand < 0.2)
-            return TerrainElement.Rock;
+            return new Element(ElementId.Rock);
         if (rand < 0.4)
-            return TerrainElement.TallGrass;
-        return TerrainElement.Empty;
+            return new Element(ElementId.TallGrass);
+        return new Element(ElementId.Empty);
     }
     click() {
-        if (this._element === TerrainElement.Rock ||
-            this._element === TerrainElement.TallGrass) {
-            this._element = TerrainElement.Empty;
+        if (this.currentElement.id === ElementId.Rock ||
+            this.currentElement.id === ElementId.TallGrass) {
+            this.currentElement = new Element(ElementId.Empty);
             this.render();
             return;
         }
-        switch (this._status) {
+        switch (this.currentStatus) {
             case TerrainStatus.Grassy:
-                this._status = TerrainStatus.Dry;
+                this.currentStatus = TerrainStatus.Dry;
                 break;
             case TerrainStatus.Dry:
-                this._status = TerrainStatus.Wet;
+                this.currentStatus = TerrainStatus.Wet;
                 break;
         }
         this.render();
     }
     nextDay() {
-        if (this._status === TerrainStatus.Wet) {
-            this._status = TerrainStatus.Dry;
+        if (this.currentStatus === TerrainStatus.Wet) {
+            this.currentStatus = TerrainStatus.Dry;
             this.render();
+            return;
+        }
+        if (this.currentStatus === TerrainStatus.Dry) {
+            this.grassGrowthCounter++;
+            if (this.grassGrowthCounter >= 3) {
+                this.currentStatus = TerrainStatus.Grassy;
+                this.grassGrowthCounter = 0;
+            }
+            this.render();
+            return;
         }
     }
     render() {
-        this.element.dataset.status = this._status;
-        this.element.dataset.element = this._element;
+        this.imageElement.src = this.currentElement.data.sprite || "";
+        const tileSize = 32; // Corresponde a --tile-size
+        const widthRatio = this.currentElement.data.width / tileSize;
+        const heightRatio = this.currentElement.data.height / tileSize;
+        this.imageElement.style.width = `calc(var(--tile-size) * ${widthRatio})`;
+        this.imageElement.style.height = `calc(var(--tile-size) * ${heightRatio})`;
+        this.elementDiv.dataset.status = this.currentStatus;
     }
 }

@@ -1,63 +1,68 @@
+import { Element, ElementId } from "./Element.js";
+
 enum TerrainStatus {
     Grassy = "grassy",
     Dry = "dry",
     Wet = "wet"
 }
 
-enum TerrainElement {
-    Rock = "rock",
-    TallGrass = "tallGrass",
-    Empty = "empty"
-}
-
 
 export class Terrain {
 
-    private element: HTMLDivElement;
-    private _status: TerrainStatus;
-    private _element: TerrainElement;
+    private elementDiv: HTMLDivElement;
+    private imageElement: HTMLImageElement;;
+    private currentStatus: TerrainStatus;
+    private currentElement: Element;
+
+    private grassGrowthCounter = 0;
 
     constructor() {
-        this.element = document.createElement("div");
-        this.element.classList.add("terrain");
+        this.elementDiv = document.createElement("div");
+        this.elementDiv.classList.add("terrain");
 
-        this._status = TerrainStatus.Grassy;
-        this._element = this.randomElement();
+        this.imageElement = document.createElement("img");
+        this.imageElement.classList.add("overlay");
+        this.elementDiv.appendChild(this.imageElement);
+
+        this.currentStatus = TerrainStatus.Grassy;
+        this.currentElement = this.randomElement();
 
         this.render();
-        this.element.addEventListener("click", () => this.click());
+
+        this.elementDiv.addEventListener("click", () => this.click());
     }
 
     get html(): HTMLDivElement {
-        return this.element;
+        return this.elementDiv;
     }
 
     get status(): TerrainStatus {
-        return this._status;
+        return this.currentStatus;
     }
 
-    private randomElement(): TerrainElement {
+    private randomElement(): Element {
         const rand = Math.random();
-        if (rand < 0.2) return TerrainElement.Rock;
-        if (rand < 0.4) return TerrainElement.TallGrass;
-        return TerrainElement.Empty;
+        if (rand < 0.2) return new Element(ElementId.Rock);
+        if (rand < 0.4) return new Element(ElementId.TallGrass);
+        return new Element(ElementId.Empty);
     }
 
     private click(): void {
-        if (this._element === TerrainElement.Rock ||
-            this._element === TerrainElement.TallGrass) {
+        if (this.currentElement.id === ElementId.Rock ||
+            this.currentElement.id === ElementId.TallGrass) {
 
-            this._element = TerrainElement.Empty;
+            this.currentElement = new Element(ElementId.Empty);
+            
             this.render();
             return;
         }
 
-        switch (this._status) {
+        switch (this.currentStatus) {
             case TerrainStatus.Grassy:
-                this._status = TerrainStatus.Dry;
+                this.currentStatus = TerrainStatus.Dry;
                 break;
             case TerrainStatus.Dry:
-                this._status = TerrainStatus.Wet;
+                this.currentStatus = TerrainStatus.Wet;
                 break;
         }
 
@@ -65,14 +70,32 @@ export class Terrain {
     }
 
     public nextDay(): void {
-        if (this._status === TerrainStatus.Wet) {
-            this._status = TerrainStatus.Dry;
+        if (this.currentStatus === TerrainStatus.Wet) {
+            this.currentStatus = TerrainStatus.Dry;
             this.render();
+            return
         }
+        if (this.currentStatus === TerrainStatus.Dry) {
+            this.grassGrowthCounter++;
+            if (this.grassGrowthCounter >= 3) {
+                this.currentStatus = TerrainStatus.Grassy;
+                this.grassGrowthCounter = 0;
+            }
+            this.render();
+            return
+        }
+
     }
 
     private render(): void {
-        this.element.dataset.status = this._status;
-        this.element.dataset.element = this._element;
+        this.imageElement.src = this.currentElement.data.sprite || "";
+        
+        const tileSize = 32; // Corresponde a --tile-size
+        const widthRatio = this.currentElement.data.width / tileSize;
+        const heightRatio = this.currentElement.data.height / tileSize;
+        
+        this.imageElement.style.width = `calc(var(--tile-size) * ${widthRatio})`;
+        this.imageElement.style.height = `calc(var(--tile-size) * ${heightRatio})`;
+        this.elementDiv.dataset.status = this.currentStatus;
     }
 }

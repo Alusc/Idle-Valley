@@ -1,14 +1,23 @@
 
 :root {
-    --tile-size: 32px;
     --column-number: 12;
     --row-number: 12;
+    --tile-size: min(
+        calc(80vw / var(--column-number)),
+        calc(80vh / var(--row-number))
+    );
 }
 
 
 body {
     margin: 0;
     padding: 0;
+    image-rendering: crisp-edges;
+    image-rendering: -moz-crisp-edges;          /* Firefox */
+    image-rendering: -o-crisp-edges;            /* Opera */
+    image-rendering: -webkit-optimize-contrast; /* Webkit (non-standard naming)*/
+    -ms-interpolation-mode: nearest-neighbor;   /* IE (non-standard property) */
+
 }
 
 main {
@@ -57,43 +66,50 @@ main {
     border-radius: 4px;
     cursor: pointer;
 }
+.coin-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+} 
 
 .grid {
     display: grid;
     grid-template-columns: repeat(var(--column-number), var(--tile-size));
     grid-template-rows: repeat(var(--row-number), var(--tile-size));
-    gap: 2px;
     padding: 8px;
     background-color: rgb(82, 27, 27);
-    border-radius: 8px;
+    border-radius: 6px;
 }
 
 
 .terrain {
-    margin: 1px;
-    padding: 0;
-    border-radius: 2px;
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    cursor: pointer;
+
+    position: relative;
     width: var(--tile-size);
     height: var(--tile-size);
-}
+}   
 
 .terrain[data-status="grassy"] {
-    background-color: rgb(43, 114, 43);
+    background-image: url("sprites/Grassy.png");
 }
 
 .terrain[data-status="dry"] {
-    background-color: rgb(121, 46, 46);
+    background-image: url("sprites/Dry.png");
 }
 
 .terrain[data-status="wet"] {
-    background-color: rgb(104, 40, 40);
+    background-image: url("sprites/Wet.png");
 }
 
-.terrain[data-element="rock"] {
-    background-image: url("sprites/pedra.png");
+.overlay {
+    position: absolute;
+    border: none;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    pointer-events: none;
 }
-
-.terrain[data-element="tallGrass"] {
-    background-image: url("sprites/erva.png");
-}
-
