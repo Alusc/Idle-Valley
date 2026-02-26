@@ -12,12 +12,6 @@
 body {
     margin: 0;
     padding: 0;
-    image-rendering: crisp-edges;
-    image-rendering: -moz-crisp-edges;          /* Firefox */
-    image-rendering: -o-crisp-edges;            /* Opera */
-    image-rendering: -webkit-optimize-contrast; /* Webkit (non-standard naming)*/
-    -ms-interpolation-mode: nearest-neighbor;   /* IE (non-standard property) */
-
 }
 
 main {
@@ -106,6 +100,8 @@ main {
 }
 
 .overlay {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges; /* fallback */
     position: absolute;
     border: none;
     left: 50%;
