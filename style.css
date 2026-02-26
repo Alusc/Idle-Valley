@@ -14,6 +14,11 @@ body {
     padding: 0;
 }
 
+img {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
 main {
     padding: 0;
     margin: 0;
@@ -77,6 +82,9 @@ main {
 
 
 .terrain {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+
     user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
@@ -100,8 +108,6 @@ main {
 }
 
 .overlay {
-    image-rendering: pixelated;
-    image-rendering: crisp-edges; /* fallback */
     position: absolute;
     border: none;
     left: 50%;
