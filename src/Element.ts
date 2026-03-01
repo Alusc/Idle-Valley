@@ -13,12 +13,12 @@ interface ElementData {
 
 const ELEMENT_DATA: Record<ElementId, ElementData> = {
     [ElementId.Rock]: {
-        sprite: "sprites/Rock.png",
+        sprite: "assets/sprites/Rock.png",
         width: 36,
         height: 36
     },
     [ElementId.TallGrass]: {
-        sprite: "sprites/TallGrass.png",
+        sprite: "assets/sprites/TallGrass.png",
         width: 64,
         height: 64
     },

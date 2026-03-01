@@ -1,4 +1,3 @@
-
 :root {
     --column-number: 12;
     --row-number: 12;
@@ -8,6 +7,10 @@
     );
 }
 
+@font-face {
+    font-family: "Stardew Valley";
+    src: url("assets/fonts/StardewValley.ttf");
+}
 
 body {
     margin: 0;
@@ -26,9 +29,10 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 8px;
     height: 100vh;
     width: 100vw;
-    background-color: seagreen;
+    background-color: rgb(36, 126, 75);
 }
 
 .items {
@@ -40,10 +44,10 @@ main {
 
 .header {
     width: calc(var(--tile-size) * var(--column-number));
-    margin-bottom: 0;
-    font-family: 'Trebuchet MS';
-    font-weight: bold;
-    font-size: 24px;
+    height: calc(2 * var(--tile-size));
+    margin: 0;
+    font-family: 'Stardew Valley';
+    font-size: 32px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -52,59 +56,69 @@ main {
 
 .day-div {
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+    margin: 0;
+    padding: 0;
+}
+
+.day-div>p {
+    margin: 0;
+    padding: 0;
 }
 
 .day-div>button {
-    margin-left: 8px;
+    font-family: 'Stardew Valley';
+    text-align: center;
+    font-size: 18px;
     padding: 4px 8px;
     background-color: rgba(0, 0, 0, 0);
-    font-weight: bold;
     border: 2px solid black;
     border-radius: 4px;
     cursor: pointer;
+    z-index: 1;
 }
+
 .coin-div {
     display: flex;
     flex-direction: row;
     align-items: center;
-} 
+}
+
+.coin-div>img {
+    width: calc(2 * var(--tile-size));
+    height: calc(2 * var(--tile-size));
+}
 
 .grid {
     display: grid;
     grid-template-columns: repeat(var(--column-number), var(--tile-size));
     grid-template-rows: repeat(var(--row-number), var(--tile-size));
     padding: 8px;
-    background-color: rgb(82, 27, 27);
-    border-radius: 6px;
+    background-color: rgb(78, 50, 24);
 }
-
 
 .terrain {
     image-rendering: pixelated;
-    image-rendering: crisp-edges;
-
     user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
     cursor: pointer;
-
     position: relative;
     width: var(--tile-size);
     height: var(--tile-size);
 }   
 
 .terrain[data-status="grassy"] {
-    background-image: url("sprites/Grassy.png");
+    background-image: url("assets/sprites/Grassy.png");
 }
 
 .terrain[data-status="dry"] {
-    background-image: url("sprites/Dry.png");
+    background-image: url("assets/sprites/Dry.png");
 }
 
 .terrain[data-status="wet"] {
-    background-image: url("sprites/Wet.png");
+    background-image: url("assets/sprites/Wet.png");
 }
 
 .overlay {
