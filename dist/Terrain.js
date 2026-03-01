@@ -1,4 +1,5 @@
 import { Element, ElementId } from "./Element.js";
+import { ItemId } from "./Item.js";
 var TerrainStatus;
 (function (TerrainStatus) {
     TerrainStatus["Grassy"] = "grassy";
@@ -17,7 +18,6 @@ export class Terrain {
         this.currentStatus = TerrainStatus.Grassy;
         this.currentElement = this.randomElement();
         this.render();
-        this.elementDiv.addEventListener("click", () => this.click());
     }
     get html() {
         return this.elementDiv;
@@ -33,22 +33,46 @@ export class Terrain {
             return new Element(ElementId.TallGrass);
         return new Element(ElementId.Empty);
     }
-    click() {
-        if (this.currentElement.id === ElementId.Rock ||
-            this.currentElement.id === ElementId.TallGrass) {
-            this.currentElement = new Element(ElementId.Empty);
+    click(usedItem) {
+        if (usedItem) {
+            if (this.currentElement.id === ElementId.Empty) {
+                this.clickOnEmpty(usedItem);
+            }
+            else {
+                this.clickOnElement(usedItem);
+            }
             this.render();
             return;
         }
-        switch (this.currentStatus) {
+    }
+    clickOnEmpty(usedItem) {
+        switch (this.status) {
             case TerrainStatus.Grassy:
-                this.currentStatus = TerrainStatus.Dry;
-                break;
+                if (usedItem.id === ItemId.Hoe) {
+                    this.currentStatus = TerrainStatus.Dry;
+                }
             case TerrainStatus.Dry:
-                this.currentStatus = TerrainStatus.Wet;
+                if (usedItem.id === ItemId.WateringCan) {
+                    this.currentStatus = TerrainStatus.Wet;
+                }
+        }
+    }
+    clickOnElement(usedItem) {
+        switch (usedItem.id) {
+            case ItemId.Hoe:
+                if (this.currentElement.id === ElementId.TallGrass) {
+                    this.clearElement();
+                }
+                break;
+            case ItemId.Pickaxe:
+                if (this.currentElement.id === ElementId.Rock) {
+                    this.clearElement();
+                }
                 break;
         }
-        this.render();
+    }
+    clearElement() {
+        this.currentElement = new Element(ElementId.Empty);
     }
     nextDay() {
         if (this.currentStatus === TerrainStatus.Wet) {

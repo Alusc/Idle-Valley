@@ -1,4 +1,5 @@
 import { Element, ElementId } from "./Element.js";
+import { Item, ItemId } from "./Item.js";
 
 enum TerrainStatus {
     Grassy = "grassy",
@@ -6,8 +7,8 @@ enum TerrainStatus {
     Wet = "wet"
 }
 
-
 export class Terrain {
+
 
     private elementDiv: HTMLDivElement;
     private imageElement: HTMLImageElement;;
@@ -29,7 +30,6 @@ export class Terrain {
 
         this.render();
 
-        this.elementDiv.addEventListener("click", () => this.click());
     }
 
     get html(): HTMLDivElement {
@@ -47,26 +47,57 @@ export class Terrain {
         return new Element(ElementId.Empty);
     }
 
-    private click(): void {
-        if (this.currentElement.id === ElementId.Rock ||
-            this.currentElement.id === ElementId.TallGrass) {
+    public click(usedItem: Item | null): void {
+        if (usedItem) {
 
-            this.currentElement = new Element(ElementId.Empty);
+            if (this.currentElement.id === ElementId.Empty) {
+
+                this.clickOnEmpty(usedItem);
+            }
+            else {
+
+                this.clickOnElement(usedItem);
+
+            }
+
             
             this.render();
             return;
         }
+    }
 
-        switch (this.currentStatus) {
+    private clickOnEmpty(usedItem: Item): void {
+
+        switch (this.status) {
             case TerrainStatus.Grassy:
-                this.currentStatus = TerrainStatus.Dry;
-                break;
+                if (usedItem.id === ItemId.Hoe) {
+                    this.currentStatus = TerrainStatus.Dry;
+                }
             case TerrainStatus.Dry:
-                this.currentStatus = TerrainStatus.Wet;
-                break;
+                if (usedItem.id === ItemId.WateringCan) {
+                    this.currentStatus = TerrainStatus.Wet;
+                }
         }
 
-        this.render();
+    }
+
+    private clickOnElement(usedItem: Item): void {
+        switch (usedItem.id) {
+            case ItemId.Hoe:
+                if (this.currentElement.id === ElementId.TallGrass) {
+                    this.clearElement();  
+                }
+                break;
+            case ItemId.Pickaxe:
+                if (this.currentElement.id === ElementId.Rock) {
+                    this.clearElement();
+                }
+                break;
+            }
+    }
+
+    private clearElement(): void {
+        this.currentElement = new Element(ElementId.Empty);
     }
 
     public nextDay(): void {
