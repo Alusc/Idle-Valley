@@ -51,10 +51,12 @@ export class Terrain {
                 if (usedItem.id === ItemId.Hoe) {
                     this.currentStatus = TerrainStatus.Dry;
                 }
+                break;
             case TerrainStatus.Dry:
                 if (usedItem.id === ItemId.WateringCan) {
                     this.currentStatus = TerrainStatus.Wet;
                 }
+                break;
         }
     }
     clickOnElement(usedItem) {

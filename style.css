@@ -17,10 +17,6 @@ body {
     padding: 0;
 }
 
-img {
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
-}
 
 main {
     padding: 0;
@@ -35,19 +31,40 @@ main {
     background-color: rgb(36, 126, 75);
 }
 
+img {
+    image-rendering: pixelated;
+}
+
 .items-div {
+    margin: 0;
+    padding: 10px;
     width: min(10vw, 200px);
     font-family: 'Stardew Valley';
     font-size: 32px;
     text-align: center;
-    position: fixed;
-    left: 80px;
-    top: 160px;
+    position: absolute;
+    left: 220px;
+    top: 140px;
     background-color: rgb(189, 174, 92);
     border: 5px solid rgb(78, 50, 24);
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.items-div>h3 {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 5px;
+}
+
+.items-div>img {
+    cursor: pointer;
+}
+
+.selected-item {
+    border: 2px solid rgb(0, 0, 0);
+    border-radius: 5px;
 }
 
 .header {
@@ -84,7 +101,6 @@ main {
     border: 2px solid black;
     border-radius: 4px;
     cursor: pointer;
-    z-index: 1;
 }
 
 .coin-div {
@@ -130,6 +146,7 @@ main {
 
 .overlay {
     position: absolute;
+    z-index: 1;
     border: none;
     left: 50%;
     top: 50%;

@@ -19,7 +19,11 @@ export class Game {
     private nextDayButton = document.querySelector(".day-div>button") as HTMLButtonElement;
 
     private itemsDiv = document.querySelector(".items-div") as HTMLDivElement;
+    private currentItemElement: ItemElement | null = null;
     private currentItem: Item | null = null;
+
+    private coinsElement = document.querySelector(".coin-div>.coins") as HTMLParagraphElement;
+    private coins = 0;
 
     constructor() {
         this.createInitialItems();
@@ -28,6 +32,11 @@ export class Game {
     }
 
     private selectItemElement(elementItem: ItemElement): void {
+        if (this.currentItemElement) {
+            this.currentItemElement.classList.remove("selected-item");
+        }
+        this.currentItemElement = elementItem;
+        this.currentItemElement.classList.add("selected-item");
         this.currentItem = elementItem.itemInstance;
         this.body.style.cursor = this.currentItem?.data.sprite
             ? `url(${this.currentItem.data.sprite}), auto`
@@ -47,10 +56,6 @@ export class Game {
             const img = document.createElement("img") as ItemElement;
             img.src = item.data.sprite!;
             img.alt = item.id;
-            img.style.cursor = "pointer";
-            img.style.width = item.data.width + "px";
-            img.style.height = item.data.height + "px";
-            
 
             img.itemInstance = item;
             

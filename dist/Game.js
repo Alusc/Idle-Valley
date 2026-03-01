@@ -15,12 +15,20 @@ export class Game {
         this.dayElement = document.querySelector(".day-div>p");
         this.nextDayButton = document.querySelector(".day-div>button");
         this.itemsDiv = document.querySelector(".items-div");
+        this.currentItemElement = null;
         this.currentItem = null;
+        this.coinsElement = document.querySelector(".coin-div>.coins");
+        this.coins = 0;
         this.createInitialItems();
         this.createGrid();
         this.nextDayButton.addEventListener("click", () => this.nextDay());
     }
     selectItemElement(elementItem) {
+        if (this.currentItemElement) {
+            this.currentItemElement.classList.remove("selected-item");
+        }
+        this.currentItemElement = elementItem;
+        this.currentItemElement.classList.add("selected-item");
         this.currentItem = elementItem.itemInstance;
         this.body.style.cursor = this.currentItem?.data.sprite
             ? `url(${this.currentItem.data.sprite}), auto`
@@ -37,9 +45,6 @@ export class Game {
             const img = document.createElement("img");
             img.src = item.data.sprite;
             img.alt = item.id;
-            img.style.cursor = "pointer";
-            img.style.width = item.data.width + "px";
-            img.style.height = item.data.height + "px";
             img.itemInstance = item;
             img.addEventListener("click", () => this.selectItemElement(img));
             if (item.id === ItemId.Hand) {
