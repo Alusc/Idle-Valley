@@ -28,7 +28,7 @@ main {
     gap: 16px;
     height: 100vh;
     width: 100vw;
-    background-color: rgb(36, 126, 75);
+    background: linear-gradient(#014284, #60e2e4);
 }
 
 img {
@@ -37,7 +37,7 @@ img {
 
 .items-div {
     position: absolute;
-    top: calc(50% + 200px);
+    top: calc(50% + 240px);
     left: 50%;
     margin: 0;
     padding: 12px;
@@ -49,6 +49,7 @@ img {
     text-align: center;
     background-color: rgb(189, 174, 92);
     border: 5px solid rgb(78, 50, 24);
+    border-radius: 8px;
     display: flex;
     gap: 5px;
     align-items: center;
@@ -57,7 +58,7 @@ img {
 
 @media (min-aspect-ratio: 1/1) {
     .items-div {
-        top: calc(50% - 50px);
+        top: calc(50% - 25px);
         width: min(10vw, 250px);
         height: auto;
         left: calc(50% - 300px);
@@ -135,6 +136,7 @@ img {
     grid-template-rows: repeat(var(--row-number), var(--tile-size));
     padding: 8px;
     background-color: rgb(78, 50, 24);
+    border-radius: 8px;
 }
 
 .terrain {
