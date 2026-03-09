@@ -33,7 +33,6 @@ export class Game {
         this.body.style.cursor = this.currentItem?.data.sprite
             ? `url(${this.currentItem.data.sprite}), auto`
             : "auto";
-        console.log(`Item selecionado: ${this.currentItem?.id}`);
     }
     createInitialItems() {
         const hand = new Item(ItemId.Hand);
